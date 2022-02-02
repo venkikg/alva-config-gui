@@ -1,0 +1,238 @@
+---
+artifact: patient-attendance-impl-war
+source_repo: https://github.cerner.com/Behavioral-Health/patient-attendance-parent
+jira: https://jira2.cerner.com/browse/GROUPCHART
+stateless: true
+capacity_reservation: DwgHDwgODQUJBgsDBAoABA
+target_initial_deployment: 2019-07
+expected_load: |
+  Every time the component is loaded, the call is made to the behavioral
+  health patient service to GET patient attendance information.
+  Once the patient attendance is documented for the patient(s), POST call
+  is performed to save that information. Service supports DELETE.
+  operations and provides API to retrieve possible attendnace types.
+authentication:
+- OAuth-1.0a
+- OAuth-2
+multi_tenant: false
+millennium_dependencies:
+- type: data_model
+  name: BH_PATIENT_TIME_INTERVAL
+apis:
+- uri: "/service/therapy-sessions/{therapySessionId}/patients/{patientId}/attendances"
+  method: GET
+  reviews:
+  - APIREV-432
+- uri: "/service/therapy-sessions/{therapySessionId}/patients/{patientId}/attendances"
+  method: POST
+  reviews:
+  - APIREV-432
+- uri: "/service/therapy-sessions/{therapySessionId}/patients/{patientId}/attendances"
+  method: DELETE
+  reviews:
+  - APIREV-432
+- uri: "/service/therapy-sessions/{therapySessionId}/patients/{patientId}/attendances"
+  method: PUT
+  reviews:
+  - APIREV-432
+- uri: "/service/attendance-types"
+  method: GET
+  reviews:
+  - APIREV-432
+bundles:
+- alva-dao-bundle
+- alva-jersey1-bundle
+- alva-jpa2.0-bundle
+- alva-system-jdbc-ml-bundle
+contacts:
+- name: Niranjan K
+  email: niranjan.k@Cerner.com
+  id: NK067505
+- name: Vinod Sankaranarayanan
+  email: vinod.sankaranarayanan@cerner.com
+  id: VS022887
+- name: Vijaya Kumar S P
+  email: vijayakumar.sp@cerner.com
+  id: VK020525
+- name: David Allen
+  email: david.allen@cerner.com
+  id: DA027778
+- name: Shebeen Mohamed
+  email: Shebeen.Mohamed@cerner.com
+  id: SM078056
+- name: K G Venkatesh
+  email: venkatesh.kg@cerner.com
+  id: VG030642
+- name: Tenzin Tridhe Naga
+  email: tenzin.naga@cerner.com
+  id: TN077480
+xmatters_group:
+- name: Behavioral_Health
+additional_documentation:
+- link: https://github.cerner.com/Behavioral-Health/patient-attendance-parent/blob/dev/README.md
+  label: Service documentation
+abilities_lab_tests:
+- ABLCERT-12749
+group: com.cerner.behavioralhealth
+health_resource: meta/health/
+service_keys:
+- key: urn:cerner:api:ml-behavioral-health-attendance:1
+consuming_solutions:
+- group_charting
+- integrated_charting
+overrides:
+  dev:
+    bundles:
+    - alva-dao-bundle
+    - alva-jaas1-bundle
+    - alva-jpa-bundle
+    - alva-millennium-bundle
+    - alva-ml-web-token-bundle
+    - alva-oauth1-bundle
+    - alva-oauth2-bundle
+    version: 2.6.0-SNAPSHOT
+    artifact_repo: http://repo.ccs.cerner.corp/main/snapshot-repo
+    deployed_tenants:
+    - 64dev.ip.devcerner.net
+    - deveng.ip.devcerner.net
+    - inddv.ip.devcerner.net
+    - provide.ip.devcerner.net
+    - swedv.ip.devcerner.net
+    - msoli.ip.devcerner.net
+    - edd01.ip.devcerner.net
+    compute_resources:
+      metaspace: 180m
+  staging:
+    bundles:
+    - alva-dao-bundle
+    - alva-jaas1-bundle
+    - alva-jpa-bundle
+    - alva-millennium-bundle
+    - alva-ml-web-token-bundle
+    - alva-oauth1-bundle
+    - alva-oauth2-bundle
+    version: 2.5.1-SNAPSHOT
+    artifact_repo: http://repo.ccs.cerner.corp/main/snapshot-repo
+    deployed_tenants:
+    - 1501eng.ip.devcerner.net
+    - eng18.ip.devcerner.net
+    - m18dv.ip.devcerner.net
+    - m18gl.ip.devcerner.net
+    - solgm.ip.devcerner.net
+    - sw18d.ip.devcerner.net
+    - swstg.ip.devcerner.net
+    - t18dv.ip.devcerner.net
+    - t18sf.ip.devcerner.net
+    - ippm.ip.devcerner.net
+    compute_resources:
+      metaspace: 180m
+  cert:
+    bundles:
+    - alva-dao-bundle
+    - alva-jaas1-bundle
+    - alva-jpa-bundle
+    - alva-millennium-bundle
+    - alva-oauth1-bundle
+    - alva-oauth2-bundle
+    version: 2.4.1
+    deployed_tenants:
+    - 1501dep.ip.devcerner.net
+    - intgm.ip.devcerner.net
+    - m18bx.ip.devcerner.net
+    - s18bx.ip.devcerner.net
+    compute_resources:
+      metaspace: 180m
+  sandbox:
+    bundles:
+    - alva-dao-bundle
+    - alva-jaas1-bundle
+    - alva-jpa-bundle
+    - alva-millennium-bundle
+    - alva-ml-web-token-bundle
+    - alva-oauth1-bundle
+    - alva-oauth2-bundle
+    version: 2.5.0
+    alerts:
+      available_metaspace_low:
+        enabled: true
+    deployed_tenants:
+    - b1941.cern_abcn.cernerasp.com
+    - t1941.cern_abcn.cernerasp.com
+    compute_resources:
+      metaspace: 180m
+  production:
+    bundles:
+    - alva-dao-bundle
+    - alva-jaas1-bundle
+    - alva-jpa-bundle
+    - alva-millennium-bundle
+    - alva-ml-web-token-bundle
+    - alva-oauth1-bundle
+    - alva-oauth2-bundle
+    version: 2.4.1
+    cerner_cloud_regions:
+      us-1:
+        deployed_tenants:
+        - b0786.cern_comh.cernerasp.com
+        - b1751.flho_fl.cernerasp.com
+        - b205.sgen_oh.cernerasp.com
+        - b275.trum_mo.cernerasp.com
+        - b3347.cern_clin.cernerasp.com
+        - b4298.cphy_pr.cernerasp.com
+        - b4298b.cphy_pr.cernerasp.com
+        - b4300.cphy_pr.cernerasp.com
+        - c0224r.cern_rwx.cernerasp.com
+        - c0786.cern_comh.cernerasp.com
+        - c149c.ahs_fl.cernerasp.com
+        - c149e.ahs_fl.cernerasp.com
+        - c1751.flho_fl.cernerasp.com
+        - c1810.cern_vcus.cernerasp.com
+        - c1941.cern_abcn.cernerasp.com
+        - c289.cern_ltca.cernerasp.com
+        - c351.ihc_ut.cernerasp.com
+        - c810.univ_mo.cernerasp.com
+        - d810.univ_mo.cernerasp.com
+        - m152e.uhs_pa.cernerasp.com
+        - m1751.flho_fl.cernerasp.com
+        - m1941.cern_abcn.cernerasp.com
+        - m205.sgen_oh.cernerasp.com
+        - m275.trum_mo.cernerasp.com
+        - m810.univ_mo.cernerasp.com
+        - p0224r.cern_rwx.cernerasp.com
+        - p0786.cern_comh.cernerasp.com
+        - p149c.ahs_fl.cernerasp.com
+        - p149e.ahs_fl.cernerasp.com
+        - p1751.flho_fl.cernerasp.com
+        - p1810.cern_vcus.cernerasp.com
+        - p1941.cern_abcn.cernerasp.com
+        - p205.sgen_oh.cernerasp.com
+        - p275.trum_mo.cernerasp.com
+        - p289.cern_ltca.cernerasp.com
+        - p3347.cern_clin.cernerasp.com
+        - p351.ihc_ut.cernerasp.com
+        - p4298.cphy_pr.cernerasp.com
+        - p4298b.cphy_pr.cernerasp.com
+        - p4300.cphy_pr.cernerasp.com
+        - p810.univ_mo.cernerasp.com
+        - s1941.cern_abcn.cernerasp.com
+        - t289.cern_ltca.cernerasp.com
+        - tiger.univ_mo.cernerasp.com
+        compute_resources:
+          metaspace: 180m
+        alerts:
+          available_metaspace_low:
+            enabled: true
+      us-gov-1:
+        deployed_tenants:
+        - b1930.lcahncrls.net
+        - c0630.lcahncrls.net
+        - i1930.lcahncrls.net
+        - m0630.lcahncrls.net
+        - p0630.lcahncrkc.net
+        - r0630.lcahncrls.net
+      emea-2:
+        deployed_tenants:
+        - b1912.reskse.cernms.net
+        - c1912.reskse.cernms.net
+        - cert.vgregion.se
+        - p1912.reskse.cernms.net
